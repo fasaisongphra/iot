@@ -1,0 +1,454 @@
+[
+    {
+        "id": "ed87b0ea2b2de7d6",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "174210666a9f3d3e",
+        "type": "inject",
+        "z": "ed87b0ea2b2de7d6",
+        "name": "ข้อมูลจาก iot",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "\"sw01/0001/room1\"",
+        "payload": "\"temp:27, humi:54\"",
+        "payloadType": "str",
+        "x": 150,
+        "y": 200,
+        "wires": [
+            [
+                "161098d460c02f1f"
+            ]
+        ]
+    },
+    {
+        "id": "8c648f12d25ad24b",
+        "type": "debug",
+        "z": "ed87b0ea2b2de7d6",
+        "name": "เเสดงผล",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "2f2bd0a68ca93129",
+        "type": "ui_text",
+        "z": "ed87b0ea2b2de7d6",
+        "group": "d94aa88dbecb28dd",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "ห้อง : ",
+        "format": "{{msg.topic[0]}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 350,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "161098d460c02f1f",
+        "type": "change",
+        "z": "ed87b0ea2b2de7d6",
+        "name": "สื่อกลาง",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "[$split(topic,'/')[1],payload.temp,payload.humi]",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 360,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a5f16e97df85ce5a",
+        "type": "ui_gauge",
+        "z": "ed87b0ea2b2de7d6",
+        "name": "",
+        "group": "d94aa88dbecb28dd",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "อุณหภูมิ",
+        "label": "หน่วยวัด",
+        "format": "{{msg.payload}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 760,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "b9284897db284fc4",
+        "type": "mqtt in",
+        "z": "ed87b0ea2b2de7d6",
+        "name": "รับค่าจาก mqtt",
+        "topic": "sensor/humi",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "01c16800ac9d1cf0",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 370,
+        "y": 360,
+        "wires": [
+            [
+                "aeeff66310c01f4b"
+            ]
+        ]
+    },
+    {
+        "id": "e5b36b5a384f6c43",
+        "type": "mqtt in",
+        "z": "ed87b0ea2b2de7d6",
+        "name": "รับค่าจาก mqtt",
+        "topic": "sensor/temp",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "01c16800ac9d1cf0",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 370,
+        "y": 320,
+        "wires": [
+            [
+                "8c648f12d25ad24b",
+                "1e08047e67015baf"
+            ]
+        ]
+    },
+    {
+        "id": "d2eaba59288b94d2",
+        "type": "ui_led",
+        "z": "ed87b0ea2b2de7d6",
+        "order": 17,
+        "group": "d94aa88dbecb28dd",
+        "width": 0,
+        "height": 0,
+        "label": "",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "0",
+                "valueType": "str"
+            },
+            {
+                "color": "#008000",
+                "value": "1",
+                "valueType": "str"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 830,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "f54f72bc54e80de5",
+        "type": "ui_button",
+        "z": "ed87b0ea2b2de7d6",
+        "name": "",
+        "group": "d94aa88dbecb28dd",
+        "order": 18,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "start",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "1",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 490,
+        "y": 480,
+        "wires": [
+            [
+                "d2eaba59288b94d2",
+                "fb85bdb6963f81cb",
+                "6e9caaa79c837ad4"
+            ]
+        ]
+    },
+    {
+        "id": "bec8c1773bf08805",
+        "type": "ui_button",
+        "z": "ed87b0ea2b2de7d6",
+        "name": "",
+        "group": "d94aa88dbecb28dd",
+        "order": 19,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "stop",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "0",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 490,
+        "y": 520,
+        "wires": [
+            [
+                "d2eaba59288b94d2",
+                "fb85bdb6963f81cb",
+                "6e9caaa79c837ad4"
+            ]
+        ]
+    },
+    {
+        "id": "36e692ad4740bd2c",
+        "type": "mqtt in",
+        "z": "ed87b0ea2b2de7d6",
+        "name": "รับค่าเปิด-ปิดหลอดไฟ",
+        "topic": "toa/led",
+        "qos": "2",
+        "datatype": "utf8",
+        "broker": "01c16800ac9d1cf0",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 350,
+        "y": 420,
+        "wires": [
+            [
+                "d2eaba59288b94d2",
+                "fb85bdb6963f81cb",
+                "6e9caaa79c837ad4"
+            ]
+        ]
+    },
+    {
+        "id": "fb85bdb6963f81cb",
+        "type": "mqtt out",
+        "z": "ed87b0ea2b2de7d6",
+        "name": "ส่งค่าเปิด-ปิดหลอดไฟ",
+        "topic": "master/toa",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "01c16800ac9d1cf0",
+        "x": 880,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "6e9caaa79c837ad4",
+        "type": "debug",
+        "z": "ed87b0ea2b2de7d6",
+        "name": "เเสดงค่าเปิด-ปิด หลอดไฟ",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 890,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "1e08047e67015baf",
+        "type": "change",
+        "z": "ed87b0ea2b2de7d6",
+        "name": "สื่อกลาง",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 580,
+        "y": 340,
+        "wires": [
+            [
+                "a5f16e97df85ce5a"
+            ]
+        ]
+    },
+    {
+        "id": "aeeff66310c01f4b",
+        "type": "change",
+        "z": "ed87b0ea2b2de7d6",
+        "name": "สื่อกลาง",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 580,
+        "y": 380,
+        "wires": [
+            [
+                "63eab7527a54bd6a"
+            ]
+        ]
+    },
+    {
+        "id": "63eab7527a54bd6a",
+        "type": "ui_gauge",
+        "z": "ed87b0ea2b2de7d6",
+        "name": "",
+        "group": "d94aa88dbecb28dd",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "ความชื้น",
+        "label": "หน่วยวัด",
+        "format": "{{msg.payload}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 760,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "d94aa88dbecb28dd",
+        "type": "ui_group",
+        "name": "แผงควบคุมโรงเรือนที่1",
+        "tab": "42e6b03e23cc63cc",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "01c16800ac9d1cf0",
+        "type": "mqtt-broker",
+        "name": "MQTTX",
+        "broker": "broker.hivemq.com",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "42e6b03e23cc63cc",
+        "type": "ui_tab",
+        "name": "หน้าหลัก",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
